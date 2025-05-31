@@ -1,0 +1,14 @@
+{
+  "__version__": "1.0.0",
+  "b": {
+    "name": "LoveRepeat",
+    "v": "v36.3.2",
+    "shuchuLJ": "D:\\MyCocosProject\\LoveRepeat/build",
+    "asar": true,
+    "isNode": true,
+    "isCover": true,
+    "appVersion": "1.0.0",
+    "icon": "C:\\Users\\ffgdgrrr\\Pictures\\64.ico",
+    "jg": "2"
+  }
+}
