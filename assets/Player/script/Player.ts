@@ -2,10 +2,16 @@ import { _decorator, Collider2D, Component, Contact2DType, director, Animation, 
 import { interaction } from 'db://assets/tools/interaction/interaction';
 import { stateUI } from '../../tools/状态栏/stateUI';
 const { ccclass, property } = _decorator;
-export const Anistate = {
+export let Anistate = {
     walk: 'walk',
+    walkUp: 'walkUp',
     idle: 'idle',
-    throw:'throw',
+    sitDown: 'sitDown',
+    walkDown: 'walkDown',
+    sitUp: 'sitUp',
+    idleDown: 'idleDown',
+    idleUp: 'idleUp',
+    peopleIndesk: 'peopleIndesk',
 }
 
 export const group = {
@@ -29,6 +35,9 @@ export class Player extends Component {
     contact: boolean;
     interactionName: Node;
     canMove: boolean = true
+    up: boolean = false
+    down: boolean = false
+    finallyDir: Vec2 = v2(0, 0);
     lockInPlayAnimation() {
         this.canMove = false
     }
@@ -76,12 +85,20 @@ export class Player extends Component {
         switch (event.keyCode) {
             case parseInt(window.localStorage.getItem('left')):
                 this.left = true
-                this.canMove=true
+                console.log(this.left)
                 break;
             case parseInt(window.localStorage.getItem('right')):
                 this.right = true
-                this.canMove=true
+
                 break;
+            case parseInt(window.localStorage.getItem('up')):
+                this.up = true
+
+                break;
+            case parseInt(window.localStorage.getItem('down')):
+                this.down = true
+
+                break
             case parseInt(window.localStorage.getItem('interaction')):
                 console.log(this.anima)
                 if (this.node.children[0].active == true) {
@@ -90,16 +107,13 @@ export class Player extends Component {
                     });
                     //this.interactionName.getComponent(interaction).interactionContactFunction()
                     this.node.children[0].active = false
+                } else if (this.anima == Anistate.peopleIndesk) {
+                    this.idle()
                 } else if (this.node.children[1]) {
                     let equipName = this.node.children[1].name
                     this.node.children[1].setParent(find('Canvas/2.5d'))
                     find('Canvas/2.5d/' + equipName).setWorldPosition(this.node.worldPosition)
                 }
-                break
-            case parseInt(window.localStorage.getItem('FLG')):
-                this.canMove=false
-                this.setAni("lian",true)
-                this.rBody.linearVelocity = v2(0, this.rBody.linearVelocity.y)
                 break
             /*case parseInt(window.localStorage.getItem('esc')):
                 director.loadScene('setting')
@@ -116,21 +130,38 @@ export class Player extends Component {
     onKeyUp(event: EventKeyboard) {
         switch (event.keyCode) {
             case parseInt(window.localStorage.getItem('left')):
+                if (this.left == true) {
 
-                this.left = false
-
-
+                    this.left = false
+                    this.finallyDir = v2(-1, 0)
+                }
+                console.log(this.left)
                 break;
             case parseInt(window.localStorage.getItem('right')):
-
-                this.right = false
+                if (this.right == true) {
+                    this.right = false
+                    this.finallyDir = v2(1, 0)
+                }
 
                 break;
+            case parseInt(window.localStorage.getItem('up')):
+                if (this.up == true) {
+                    this.up = false
+                    this.finallyDir = v2(0, 1)
+                }
+
+                break
+            case parseInt(window.localStorage.getItem('down')):
+                if (this.down == true) {
+                    this.down = false
+                    this.finallyDir = v2(0, -1)
+                }
+                break
         }
     }
     update(deltaTime: number) {
         if (this.node.children[0]) {
-            this.node.children[0].setPosition(0, 153.566, 0)
+            this.node.children[0].setPosition(0, 84, 0)
         }
         //console.log(this.lnventory)
         this.move(deltaTime)
@@ -140,13 +171,13 @@ export class Player extends Component {
         console.log(otherCollider.group)
         if (otherCollider.group == 4) {
             this.contact = true
-            if(otherCollider.node.getComponent(interaction).canInteraction==true){
+            if (otherCollider.node.getComponent(interaction).canInteraction == true) {
                 this.interactionName = otherCollider.node
-        
+
                 console.log(this.interactionName.name + 'onBeginContact')
                 this.node.children[0].active = true
             }
-            
+
         }
     }
     onEndContactPlayer(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
@@ -156,27 +187,58 @@ export class Player extends Component {
         }
         console.log(666)
     }
-    move(deltaTime: number) {
-        if (this.canMove == true) {
+    move(deltaTime:number){
+        if(this.canMove==true){
 
-           
-
-                if (this.left == true && this.right == false) {
-                    this.setAni(Anistate.walk, true)
-                    this.node.setScale(-1, 1, 1)
-                    this.rBody.linearVelocity = v2(-1 * this.moveSpeed, this.rBody.linearVelocity.y)
-                } else if (this.left == false && this.right == true) {
-                    this.setAni(Anistate.walk, true)
-                    this.rBody.linearVelocity = v2(1 * this.moveSpeed, this.rBody.linearVelocity.y)
-                    this.node.setScale(1, 1, 1)
-                } else if (this.left == false && this.right == false) {
-                    this.setAni(Anistate.idle, true)
-                    this.rBody.linearVelocity = v2(0, this.rBody.linearVelocity.y)
+        //console.log(this.anima)
+            if(this.anima==Anistate.idle||this.anima==Anistate.walk||this.anima==Anistate.walkUp||this.anima==Anistate.walkDown||this.anima==Anistate.idleDown||this.anima==Anistate.idleUp){
+                if(this.left==true||this.right==true){
+                this.setAni(Anistate.walk,true)
+             
+                }else if(this.up==true||this.down==true){
+                    if(this.down==true){
+                        this.setAni(Anistate.walkDown,true)
+                    }else if(this.up==true){
+                        this.setAni(Anistate.walkUp,true)
+                    }
                 }
-
-            
+            if(this.left==true){
+                this.node.setScale(-1,1,1)
+            }else if(this.right==true){
+                this.node.setScale(1,1,1)
+            }
+            if(this.left==true&&this.right==false){
+                this.rBody.linearVelocity=v2(-1*this.moveSpeed,this.rBody.linearVelocity.y)
+            }else if(this.left==false&&this.right==true){
+                this.rBody.linearVelocity=v2(1*this.moveSpeed,this.rBody.linearVelocity.y)
+            }else{
+                if(this.up==false&&this.down==false){
+                    if(this.finallyDir.y==1){
+                    this.setAni(Anistate.idleUp,true)
+                }else if(this.finallyDir.y==-1){
+                    this.setAni(Anistate.idleDown,true)
+                }
+                }
+                
+                this.rBody.linearVelocity=v2(0,this.rBody.linearVelocity.y)
+            }
+            if(this.up==true&&this.down==false){
+                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,1*this.moveSpeed)
+            }else if(this.up==false&&this.down==true){
+                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,-1*this.moveSpeed)
+            }else{
+                if(this.left==false&&this.right==false){
+                    if(this.finallyDir.x==1||this.finallyDir.x==-1){
+                        this.setAni(Anistate.idle,true)
+                    }
+                }
+                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,0)
+            }
+        }else{
+           
         }
-
+    }
+        
     }
     setAni(anima: string, 动画重复检测: boolean, node?: Animation) {
         if (动画重复检测 == true) {

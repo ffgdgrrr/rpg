@@ -235,9 +235,7 @@ export class settingData extends Component {
         window.localStorage.setItem('饱食',JSON.stringify(this.饱食))
         window.localStorage.setItem('金钱',JSON.stringify(this.金钱))
         console.log(this.饱食)
-        if(JSON.parse(window.localStorage.getItem('金钱'))>=200){
-            window.localStorage.setItem('money250','true')
-        }
+       
 
     }
     currentScene(){

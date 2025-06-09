@@ -18,11 +18,12 @@ export class reset extends Component {
             window.localStorage.setItem('interaction', JSON.stringify(KeyCode.KEY_R))
             window.localStorage.setItem('left', JSON.stringify(KeyCode.KEY_A))
             window.localStorage.setItem('right', JSON.stringify(KeyCode.KEY_D))
+            window.localStorage.setItem('up', JSON.stringify(KeyCode.KEY_W))
+            window.localStorage.setItem('down', JSON.stringify(KeyCode.KEY_S))
             window.localStorage.setItem('next', JSON.stringify(KeyCode.SPACE))
             window.localStorage.setItem('esc', JSON.stringify(KeyCode.ESCAPE))
             window.localStorage.setItem('save', JSON.stringify(KeyCode.HOME))
             window.localStorage.setItem('inventory', JSON.stringify(KeyCode.KEY_I))
-            window.localStorage.setItem('FLG', JSON.stringify(KeyCode.KEY_L))
             window.localStorage.setItem('autoSave', JSON.stringify(true))
             for (let i = 0; i < find('Canvas/操作说明/Label/Layout').children.length; i++) {
                 find('Canvas/操作说明/Label/Layout').children[i].getComponent(ChangeKey).change()

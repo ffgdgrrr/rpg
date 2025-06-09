@@ -133,7 +133,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
+      "width": 560,
       "height": 100.8
     },
     "_anchorPoint": {
@@ -168,7 +168,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "老师把你逮进了办公室",
+    "_string": "请输入黑幕文本",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 80,
@@ -350,6 +350,7 @@
       "__id__": 0
     },
     "fileId": "2fIn3/O4hIeIb02J8XM84w",
+    "instance": null,
     "targetOverrides": null
   }
 ]

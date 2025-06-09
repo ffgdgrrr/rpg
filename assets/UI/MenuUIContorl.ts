@@ -9,7 +9,7 @@ export class MenuUIContorl extends Component {
     @property(Button)
     quitNode: Button = null
     play() {
-        director.loadScene('histroy')
+        director.loadScene('start')
     }
     setting() {
         director.loadScene('setting')
@@ -23,7 +23,8 @@ export class MenuUIContorl extends Component {
     start() {
         if (window.localStorage.getItem('next')) {
         } else {
-            window.localStorage.setItem('FLG', JSON.stringify(KeyCode.KEY_L))
+            window.localStorage.setItem('up', JSON.stringify(KeyCode.KEY_W))
+            window.localStorage.setItem('down', JSON.stringify(KeyCode.KEY_S))
             window.localStorage.setItem('interaction', JSON.stringify(KeyCode.KEY_R))
             window.localStorage.setItem('left', JSON.stringify(KeyCode.KEY_A))
             window.localStorage.setItem('right', JSON.stringify(KeyCode.KEY_D))
