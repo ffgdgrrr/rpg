@@ -15,7 +15,7 @@ export class undo extends interaction {
     onKeyDown (event: EventKeyboard) {
         console.log('drag666')
         switch(event.keyCode) {
-            case parseInt(window.localStorage.getItem('next')):
+            case parseInt(sys.localStorage.getItem('next')):
                 for(let i=0;i<this.eventHandler.length;i++){
                     this.eventHandler[i].emit([])
                 }

@@ -1,4 +1,4 @@
-import { _decorator, Component, JsonAsset, Node, TerrainLayer } from 'cc';
+import { _decorator, Component, JsonAsset, Node, sys, TerrainLayer } from 'cc';
 import { action } from '../dialog/typeScript/dialog_galgame';
 const { ccclass, property } = _decorator;
 
@@ -10,12 +10,15 @@ export class dialogLocal extends Component {
     }
     getSysLocalAboutDialog(){
         
-        let dialogLocal:{}=JSON.parse(window.localStorage.getItem('dialogLocal'))
+        let dialogLocal:{};
+        if(sys.localStorage.getItem('dialogLocal')){
+            dialogLocal=JSON.parse(sys.localStorage.getItem('dialogLocal'))
+        }
         console.log(dialogLocal+'dialogLocal')
         if(dialogLocal){
             return dialogLocal
         }else{ 
-            window.localStorage.setItem('dialogLocal',JSON.stringify({}))
+            sys.localStorage.setItem('dialogLocal',JSON.stringify({}))
             console.log(dialogLocal+'dd')
             return {}
         }
@@ -43,7 +46,7 @@ export class dialogLocal extends Component {
                 dialogLocal[key]=false
                 break
         }
-        window.localStorage.setItem('dialogLocal',JSON.stringify(dialogLocal))
+        sys.localStorage.setItem('dialogLocal',JSON.stringify(dialogLocal))
     }
     update(deltaTime: number) {
         

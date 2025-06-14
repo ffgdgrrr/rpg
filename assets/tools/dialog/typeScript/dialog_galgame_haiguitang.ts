@@ -52,7 +52,7 @@ export class dialog_galgame extends Component{
     }
     onKeyDown (event: EventKeyboard) {
         switch(event.keyCode) {
-            case parseInt(window.localStorage.getItem('next')):
+            case parseInt(sys.localStorage.getItem('next')):
                 console.log('press')
                 if(this.isChoose==false){
                                     if(this.canPress==true&&this.node.active==true){
@@ -62,7 +62,7 @@ export class dialog_galgame extends Component{
                     }*/
                 }else if(this.canPress==false){
                     this.unscheduleAllCallbacks()
-                    this.text.string=window.localStorage.getItem('text')
+                    this.text.string=sys.localStorage.getItem('text')
                     this.canPress=true
                 }
                 }
@@ -76,7 +76,7 @@ export class dialog_galgame extends Component{
     update(deltaTime: number) {
     }
     showTextAnim(text:string){
-        window.localStorage.setItem('text',text)
+        sys.localStorage.setItem('text',text)
         for (let i = 0; i < text.length; i++) {
             this.scheduleOnce(() => {
                 this.text.string+=text[i]
@@ -277,7 +277,7 @@ export class dialog_galgame extends Component{
                 switch(this.csv.name){
                     case '不如带个坏手机':
                         find('Canvas/2.5d/desk/手机').destroy()
-                        //window.localStorage.setItem('不如带个坏手机',JSON.stringify(true))
+                        //sys.localStorage.setItem('不如带个坏手机',JSON.stringify(true))
                         dialogLocalData.setSysLocalAboutDIalog('不如带个坏手机',action.add)
                         break
                     case '做技术课题':
@@ -354,8 +354,8 @@ export class dialog_galgame extends Component{
                     const condition2  =condition.replace(/[^a-zA-Z0-9 :]/g, '')
                     let celll=condition2.split(':')
                     console.log(celll,condition2)
-                    console.log(window.localStorage.getItem(celll[0]),celll[1])
-                    if(window.localStorage.getItem(celll[0])==celll[1]){
+                    console.log(sys.localStorage.getItem(celll[0]),celll[1])
+                    if(sys.localStorage.getItem(celll[0])==celll[1]){
                         button.getComponent(Button).interactable=true
                     }else{
                         button.getComponent(Button).interactable=false

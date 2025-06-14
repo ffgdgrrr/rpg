@@ -24,7 +24,7 @@ export class connectScene extends interaction{
     
     interactionContactFunction(): void {
         
-        const FrontScene=window.localStorage.getItem('FrontScene')
+        const FrontScene=sys.localStorage.getItem('FrontScene')
         console.log('FrontScene',FrontScene)
         let isFind:boolean=false
         this.connectScene.forEach(element=>{
@@ -37,7 +37,7 @@ export class connectScene extends interaction{
             director.loadScene(this.deafultScene.name)
         }
         if(this.isEmitFrontScene==true){
-            window.localStorage.setItem('FrontScene',director.getScene().name)
+            sys.localStorage.setItem('FrontScene',director.getScene().name)
         }
     }
     update(deltaTime: number) {

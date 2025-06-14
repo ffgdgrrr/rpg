@@ -62,7 +62,7 @@ export class dialog_op extends Component {
 
     onKeyDown (event: EventKeyboard) {
         switch(event.keyCode) {
-            case parseInt(window.localStorage.getItem('next')):
+            case parseInt(sys.localStorage.getItem('next')):
                 if(this.canPress==true){
                     this.onClickNext()
                     

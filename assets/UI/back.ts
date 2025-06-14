@@ -5,6 +5,9 @@ const { ccclass, property } = _decorator;
 @ccclass('back')
 export class back extends Component {
     start() {
+        this.refuse()
+    }
+    refuse(){
         if(sys.localStorage.getItem('currentScene')){
 
         }else{

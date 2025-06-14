@@ -8,16 +8,22 @@ export class SaveOrReadNodeContorl extends Component {
     start() {
 
     }
-    Save(){
-        let button=find('Canvas/readAndSaveNode/layout/'+this.node.name)
-        button.getComponent(dataNode).Save()
+    Save() {
+        let button = find('Canvas/readAndSaveNode/layout/' + this.node.name)
+        if (button) {
+            button.getComponent(dataNode).Save()
+        }
     }
-    Read(){
-        let button=find('Canvas/readAndSaveNode/layout/'+this.node.name)
-        button.getComponent(dataNode).Read()
+    Read() {
+
+        let button = find('Canvas/readAndSaveNode/layout/' + this.node.name)
+        if (button) {
+            button.getComponent(dataNode).Read()
+        }
+
     }
     update(deltaTime: number) {
-        
+
     }
 }
 

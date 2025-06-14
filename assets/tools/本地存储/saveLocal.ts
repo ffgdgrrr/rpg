@@ -1,4 +1,4 @@
-import { Enum } from 'cc';
+import { Enum, sys } from 'cc';
 import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
@@ -37,9 +37,9 @@ export class saveLocal extends Component {
     local(){
         if(this.localEvent===localEvent.getItem){
            
-            return JSON.parse(window.localStorage.getItem(this.MapNode.key))
+            return JSON.parse(sys.localStorage.getItem(this.MapNode.key))
         }else if(this.localEvent===localEvent.setItem){
-            window.localStorage.setItem(this.MapNode.key,this.MapNode.value)
+            sys.localStorage.setItem(this.MapNode.key,this.MapNode.value)
         }
         
     }

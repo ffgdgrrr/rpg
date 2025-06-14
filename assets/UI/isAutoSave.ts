@@ -7,7 +7,7 @@ export class isAutoSave extends Component {
     @property(Toggle)
     isAutoSave:Toggle=null!
     start() {
-        const autoSave:boolean=JSON.parse(window.localStorage.getItem('autoSave'))
+        const autoSave:boolean=JSON.parse(sys.localStorage.getItem('autoSave'))
         if(autoSave==false){
             this.isAutoSave.isChecked=false
             
@@ -20,21 +20,21 @@ export class isAutoSave extends Component {
     press(){
         //web全屏
         /*if(this.isAutoSave.isChecked==false){
-            window.localStorage.setItem('fullScreen',JSON.stringify(true))
+            sys.localStorage.setItem('fullScreen',JSON.stringify(true))
             //ElectronAPI.fullScreen()
             screen.requestFullScreen()
         }else if(this.isAutoSave.isChecked==true){
-            window.localStorage.setItem('fullScreen',JSON.stringify(false))
+            sys.localStorage.setItem('fullScreen',JSON.stringify(false))
             //ElectronAPI.window()
             screen.exitFullScreen()
         }*/
         //windows
         if(this.isAutoSave.isChecked==false){
-            window.localStorage.setItem('autoSave',JSON.stringify(true))
+            sys.localStorage.setItem('autoSave',JSON.stringify(true))
 
             //screen.requestFullScreen()
         }else if(this.isAutoSave.isChecked==true){
-            window.localStorage.setItem('autoSave',JSON.stringify(false))
+            sys.localStorage.setItem('autoSave',JSON.stringify(false))
             //screen.requestFullScreen()
         }
     }

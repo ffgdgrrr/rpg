@@ -53,7 +53,7 @@ export class dialog_galgame extends Component{
     }
     onKeyDown (event: EventKeyboard) {
         switch(event.keyCode) {
-            case parseInt(window.localStorage.getItem('next')):
+            case parseInt(sys.localStorage.getItem('next')):
                 console.log('press')
                 if(this.isChoose==false){
                 if(this.canPress==true&&this.node.active==true){

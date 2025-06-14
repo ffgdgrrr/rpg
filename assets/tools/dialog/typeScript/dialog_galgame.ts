@@ -86,14 +86,14 @@ export class dialog_galgame extends Component {
                 }*/
             } else if (this.canPress == false) {
                 this.unscheduleAllCallbacks()
-                this.text.string = window.localStorage.getItem('text')
+                this.text.string = sys.localStorage.getItem('text')
                 this.canPress = true
             }
         }
     }
     onKeyDown(event: EventKeyboard) {
         switch (event.keyCode) {
-            case parseInt(window.localStorage.getItem('next')):
+            case parseInt(sys.localStorage.getItem('next')):
                 if(this.dialogRows.length>0){
                     this.click()
                 }
@@ -107,10 +107,10 @@ export class dialog_galgame extends Component {
         input.off(Input.EventType.KEY_PRESSING, this.onKeyDown, this)
     }
     update(deltaTime: number) {
-        this.node.setPosition(find('Canvas/Camera').position)
+        //this.node.setPosition(find('Canvas/Camera').position)
     }
     showTextAnim(text: string) {
-        window.localStorage.setItem('text', text)
+        sys.localStorage.setItem('text', text)
         for (let i = 0; i < text.length; i++) {
             this.scheduleOnce(() => {
                 this.text.string += text[i]
@@ -221,111 +221,11 @@ export class dialog_galgame extends Component {
     }
     //对话选项绑定函数
     DialogueChooseFunc(cell5) {
-        let cell = parseInt(cell5)
-        console.log(cell)
-        //选择CSV文件中的《事件》id，所执行对应的代码
-        //事件必须出现在&对活里
-        switch (cell) {
-            case 0:
-                switch (this.node.name) {
-                    case '老师要来找我麻烦了':
-                        dialogLocalData.setSysLocalAboutDIalog('老师要来找我麻烦了', action.add)
-                        console.log('666')
-                        break
-
-                }
-
-                break
-        }
+        
 
     }
     endFunc() {
-        console.log(this.node.name)
-        switch (this.node.name) {
-            case '老师有人带手机':
-                find('Canvas/Camera/blackFront').active = true
-                break
-            case '高中生涯规划':
-                find('Canvas/Camera/blackFront').active = true
-                break
-            case '填写实验数据':
-                find('Canvas/blackFront').active = true
-                break
-            case '收集实验数据':
-                director.loadScene('发到班级群_自选课题')
-                break
-            case '肖老师讲故事':
-                director.loadScene('classroom_自选课题')
-                break
-            case '志远快上去关掉':
-                //director.loadScene('走廊')
-                break
-            case '看完南京大屠杀的感悟':
-                break
-            case '今天是什么日子大家心里清楚':
-                find('Canvas/南京大屠杀').active = true
-                break
-            case 'xf上课':
-                find('Canvas/语文老师12月13日').active = true
-                break
-            case '做问卷调查':
-                console.log(dialogLocalData.getSysLocalAboutDialog())
-                if (dialogLocalData.getSysLocalAboutDialogDOM('重写问卷')) {
-                    console.log('失败了！！！')
-                    find('Canvas/computer2/重写问卷').active = true
-                    dialogLocalData.setSysLocalAboutDIalog('重写问卷', action.delete)
-                } else {
-                    find('Canvas/收集实验数据').active = true
-                    console.log('成功了！！！')
-                }
-
-                break
-            case '做技术课题':
-                if (dialogLocalData.getSysLocalAboutDialogDOM('问卷调查')) {
-                    console.log('成功啦！！！')
-                    find('Canvas/computer2/Text').active = true
-                    find('Canvas/computer2/重写').active = false
-                } else {
-                    find('Canvas/computer2/重写').active = true
-                }
-                dialogLocalData.setSysLocalAboutDIalog('ai生成', action.delete)
-                dialogLocalData.setSysLocalAboutDIalog('问卷调查', action.delete)
-                break
-            case '老师拿手机':
-                director.loadScene('办公室')
-                break
-            case '贵屿中学我来了':
-                director.loadScene('home_2floor_livingroom-phone')
-                break
-            case '老师要来找我麻烦了':
-                console.log(dialogLocalData.getSysLocalAboutDialog())
-                if (dialogLocalData.getSysLocalAboutDialogDOM('保证不带手机')) {
-                    if (dialogLocalData.getSysLocalAboutDialogDOM('签了字')) {
-                    } else {
-                        if (dialogLocalData.getSysLocalAboutDialogDOM('老师要来找我麻烦了')) {
-                            find('Canvas/你刚才还说老师要来找你麻烦').active = true
-                        } else {
-                            find('Canvas/接受道歉').active = true
-                        }
-                    }
-
-
-                } else if (dialogLocalData.getSysLocalAboutDialogDOM('在停学书上做文章')) {
-
-                }
-                dialogLocalData.setSysLocalAboutDIalog('签了字', action.delete)
-                dialogLocalData.setSysLocalAboutDIalog('老师要来找我麻烦了', action.delete)
-                dialogLocalData.setSysLocalAboutDIalog('保证不带手机', action.delete)
-                dialogLocalData.setSysLocalAboutDIalog('在停学书上做文章', action.delete)
-                console.log(dialogLocalData.getSysLocalAboutDialog(), dialogLocalData.getSysLocalAboutDialogDOM('保证不带手机'))
-                break
-        }
-        if (this.endDelete == true) {
-            console.log('dddd')
-            this.node.active = false
-        }
-        this.canRestart = true
-
+        
     }
     Restart() {
         this.readText(this.csv)
@@ -338,62 +238,7 @@ export class dialog_galgame extends Component {
 
     }
     DialogueFunc(cell5) {
-        let cell = parseInt(cell5)
-        console.log(cell)
-        //选择CSV文件中的《事件》id，所执行对应的代码
-        //事件必须出现在#对活里
-        switch (cell) {
-            case 0:
-                switch (this.csv.name) {
-                    case '不如带个坏手机':
-                        find('Canvas/2.5d/desk/手机').destroy()
-                        //window.localStorage.setItem('不如带个坏手机',JSON.stringify(true))
-                        dialogLocalData.setSysLocalAboutDIalog('不如带个坏手机', action.add)
-                        break
-                    case '做技术课题':
-                        dialogLocalData.setSysLocalAboutDIalog('ai生成', action.add)
-                        break
-                    case '做问卷调查':
-                        dialogLocalData.setSysLocalAboutDIalog('重写问卷', action.add)
-                        break
-                }
-
-                console.log('带手机到学校')
-                break
-            case 1:
-                switch (this.node.name) {
-                    case '老师要来找我麻烦了':
-                        dialogLocalData.setSysLocalAboutDIalog('保证不带手机', action.add)
-                        console.log('666')
-                        break
-                    case '做技术课题':
-                        dialogLocalData.setSysLocalAboutDIalog('问卷调查', action.add)
-                        break
-
-                }
-                console.log('不带手机到学校')
-                break
-            case 2:
-                switch (this.node.name) {
-                    case '老师要来找我麻烦了':
-                        dialogLocalData.setSysLocalAboutDIalog('在停学书上做文章', action.add)
-                        console.log('666')
-                        break
-
-                }
-                console.log('不带手机到学校')
-                break
-            case 3:
-                switch (this.node.name) {
-                    case '老师要来找我麻烦了':
-                        dialogLocalData.setSysLocalAboutDIalog('签了字', action.add)
-                        director.loadScene('home_2floor_livingroom-停学')
-                        break
-
-                }
-                console.log('不带手机到学校')
-                break
-        }
+       
     }
 
     GenerateOption(_index: number) {
@@ -444,12 +289,12 @@ export class dialog_galgame extends Component {
                 button.getComponentInChildren(Label).string = this.cell[3];
                 //语法：“名字”:“值”
                 console.log(typeof condition)
-                if (condition!) {
+                if (condition.trim()) {
                     const condition2 = condition.replace(/[^a-zA-Z0-9 :]/g, '')
-                    let celll = condition2.split(':')
-                    console.log(celll, condition2)
-                    console.log(window.localStorage.getItem(celll[0]), celll[1])
-                    if (window.localStorage.getItem(celll[0]) == celll[1]) {
+                    // let celll = condition2.split(':')
+                    // console.log(celll, condition2)
+                    // console.log(sys.localStorage.getItem(celll[0]), celll[1])
+                    if (dialogLocalData.getSysLocalAboutDialogDOM(condition2)) {
                         button.getComponent(Button).interactable = true
                     } else {
                         button.getComponent(Button).interactable = false

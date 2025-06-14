@@ -16,7 +16,7 @@ export class ChangeKey extends Component {
     }
     change(){
         
-        this.node.children[0].getComponent(Label).string=this.getEnumName(parseInt(window.localStorage.getItem(this.KeyName)))
+        this.node.children[0].getComponent(Label).string=this.getEnumName(parseInt(sys.localStorage.getItem(this.KeyName)))
     }
     getEnumName(value: KeyCode): string | undefined {
         const enumKeys = Object.keys(KeyCode);
@@ -45,13 +45,13 @@ export class ChangeKey extends Component {
             this.moveKey=event.keyCode
             this.canChangeKey=false
             this.node.children[0].getComponent(Label).string=this.getEnumName(this.moveKey)
-            window.localStorage.setItem(this.KeyName,JSON.stringify(this.moveKey))
-            //console.log(parseInt(window.localStorage.getItem(this.KeyName)))
+            sys.localStorage.setItem(this.KeyName,JSON.stringify(this.moveKey))
+            //console.log(parseInt(sys.localStorage.getItem(this.KeyName)))
             
         }
     }
     onKeyUp(event:EventKeyboard){
-        if(parseInt(window.localStorage.getItem(this.KeyName))==event.keyCode){
+        if(parseInt(sys.localStorage.getItem(this.KeyName))==event.keyCode){
         }
     }
     gaijianwei(){

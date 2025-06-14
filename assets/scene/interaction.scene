@@ -1459,8 +1459,8 @@
     "canQuit": false,
     "finishedTalk": false,
     "isMezi": false,
-    "isDialog": true,
-    "interactionEvent": 1,
+    "isDialog": false,
+    "interactionEvent": 7,
     "key": "",
     "changeValue": 4,
     "changeNumber": 10,
@@ -1478,7 +1478,7 @@
         "__id__": 29
       }
     ],
-    "_id": "e9SbLsk0FOXIi48PHeceWZ"
+    "_id": "46WmteQ89PVLHYNbG9gtJ7"
   },
   {
     "__type__": "cc.Node",

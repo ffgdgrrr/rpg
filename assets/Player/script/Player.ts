@@ -1,4 +1,4 @@
-import { _decorator, Collider2D, Component, Contact2DType, director, Animation, EventKeyboard, find, input, Input, IPhysics2DContact, KeyCode, Node, RigidBody2D, Sprite, v2, BaseNode, EPhysics2DDrawFlags, PhysicsSystem2D, Label, Prefab, instantiate, screen, ProgressBar, Vec2 } from 'cc';
+import { _decorator, Collider2D, Component, Contact2DType, director, Animation, EventKeyboard, find, input, Input, IPhysics2DContact, KeyCode, Node, RigidBody2D, Sprite, v2, BaseNode, EPhysics2DDrawFlags, PhysicsSystem2D, Label, Prefab, instantiate, screen, ProgressBar, Vec2, sys } from 'cc';
 import { interaction } from 'db://assets/tools/interaction/interaction';
 import { stateUI } from '../../tools/状态栏/stateUI';
 const { ccclass, property } = _decorator;
@@ -45,6 +45,7 @@ export class Player extends Component {
         this.canMove = true
     }
     start() {
+
         //screen.requestFullScreen()
         /*this.inventory=instantiate(this.bag)
         this.inventory.setParent(find('Canvas/Camera'))
@@ -66,7 +67,7 @@ export class Player extends Component {
         console.log(colliderPlayer.group)
     }
     onLoad() {
-
+        sys.localStorage.setItem('PlayerPath',this.node.getPathInHierarchy())
 
 
         this.anima = this.Ani.defaultClip.name
@@ -83,23 +84,23 @@ export class Player extends Component {
     }
     onKeyDown(event: EventKeyboard) {
         switch (event.keyCode) {
-            case parseInt(window.localStorage.getItem('left')):
+            case parseInt(sys.localStorage.getItem('left')):
                 this.left = true
                 console.log(this.left)
                 break;
-            case parseInt(window.localStorage.getItem('right')):
+            case parseInt(sys.localStorage.getItem('right')):
                 this.right = true
 
                 break;
-            case parseInt(window.localStorage.getItem('up')):
+            case parseInt(sys.localStorage.getItem('up')):
                 this.up = true
 
                 break;
-            case parseInt(window.localStorage.getItem('down')):
+            case parseInt(sys.localStorage.getItem('down')):
                 this.down = true
 
                 break
-            case parseInt(window.localStorage.getItem('interaction')):
+            case parseInt(sys.localStorage.getItem('interaction')):
                 console.log(this.anima)
                 if (this.node.children[0].active == true) {
                     this.interactionName.getComponents(interaction).forEach(element => {
@@ -115,11 +116,11 @@ export class Player extends Component {
                     find('Canvas/2.5d/' + equipName).setWorldPosition(this.node.worldPosition)
                 }
                 break
-            /*case parseInt(window.localStorage.getItem('esc')):
+            /*case parseInt(sys.localStorage.getItem('esc')):
                 director.loadScene('setting')
                 break*/
-            /*case parseInt(window.localStorage.getItem('save')):
-                window.localStorage.setItem('SaveScene',director.getScene().name)
+            /*case parseInt(sys.localStorage.getItem('save')):
+                sys.localStorage.setItem('SaveScene',director.getScene().name)
                 /*let saveLabel=instantiate()
                 saveLabel.addComponent(Label).string='保存'+director.getScene().name
                 saveLabel.setParent(find('Canvas'))
@@ -129,7 +130,7 @@ export class Player extends Component {
     }
     onKeyUp(event: EventKeyboard) {
         switch (event.keyCode) {
-            case parseInt(window.localStorage.getItem('left')):
+            case parseInt(sys.localStorage.getItem('left')):
                 if (this.left == true) {
 
                     this.left = false
@@ -137,21 +138,21 @@ export class Player extends Component {
                 }
                 console.log(this.left)
                 break;
-            case parseInt(window.localStorage.getItem('right')):
+            case parseInt(sys.localStorage.getItem('right')):
                 if (this.right == true) {
                     this.right = false
                     this.finallyDir = v2(1, 0)
                 }
 
                 break;
-            case parseInt(window.localStorage.getItem('up')):
+            case parseInt(sys.localStorage.getItem('up')):
                 if (this.up == true) {
                     this.up = false
                     this.finallyDir = v2(0, 1)
                 }
 
                 break
-            case parseInt(window.localStorage.getItem('down')):
+            case parseInt(sys.localStorage.getItem('down')):
                 if (this.down == true) {
                     this.down = false
                     this.finallyDir = v2(0, -1)
@@ -187,58 +188,58 @@ export class Player extends Component {
         }
         console.log(666)
     }
-    move(deltaTime:number){
-        if(this.canMove==true){
+    move(deltaTime: number) {
+        if (this.canMove == true) {
 
-        //console.log(this.anima)
-            if(this.anima==Anistate.idle||this.anima==Anistate.walk||this.anima==Anistate.walkUp||this.anima==Anistate.walkDown||this.anima==Anistate.idleDown||this.anima==Anistate.idleUp){
-                if(this.left==true||this.right==true){
-                this.setAni(Anistate.walk,true)
-             
-                }else if(this.up==true||this.down==true){
-                    if(this.down==true){
-                        this.setAni(Anistate.walkDown,true)
-                    }else if(this.up==true){
-                        this.setAni(Anistate.walkUp,true)
+            //console.log(this.anima)
+            if (this.anima == Anistate.idle || this.anima == Anistate.walk || this.anima == Anistate.walkUp || this.anima == Anistate.walkDown || this.anima == Anistate.idleDown || this.anima == Anistate.idleUp) {
+                if (this.left == true || this.right == true) {
+                    this.setAni(Anistate.walk, true)
+
+                } else if (this.up == true || this.down == true) {
+                    if (this.down == true) {
+                        this.setAni(Anistate.walkDown, true)
+                    } else if (this.up == true) {
+                        this.setAni(Anistate.walkUp, true)
                     }
                 }
-            if(this.left==true){
-                this.node.setScale(-1,1,1)
-            }else if(this.right==true){
-                this.node.setScale(1,1,1)
-            }
-            if(this.left==true&&this.right==false){
-                this.rBody.linearVelocity=v2(-1*this.moveSpeed,this.rBody.linearVelocity.y)
-            }else if(this.left==false&&this.right==true){
-                this.rBody.linearVelocity=v2(1*this.moveSpeed,this.rBody.linearVelocity.y)
-            }else{
-                if(this.up==false&&this.down==false){
-                    if(this.finallyDir.y==1){
-                    this.setAni(Anistate.idleUp,true)
-                }else if(this.finallyDir.y==-1){
-                    this.setAni(Anistate.idleDown,true)
+                if (this.left == true) {
+                    this.node.setScale(-1, 1, 1)
+                } else if (this.right == true) {
+                    this.node.setScale(1, 1, 1)
                 }
-                }
-                
-                this.rBody.linearVelocity=v2(0,this.rBody.linearVelocity.y)
-            }
-            if(this.up==true&&this.down==false){
-                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,1*this.moveSpeed)
-            }else if(this.up==false&&this.down==true){
-                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,-1*this.moveSpeed)
-            }else{
-                if(this.left==false&&this.right==false){
-                    if(this.finallyDir.x==1||this.finallyDir.x==-1){
-                        this.setAni(Anistate.idle,true)
+                if (this.left == true && this.right == false) {
+                    this.rBody.linearVelocity = v2(-1 * this.moveSpeed, this.rBody.linearVelocity.y)
+                } else if (this.left == false && this.right == true) {
+                    this.rBody.linearVelocity = v2(1 * this.moveSpeed, this.rBody.linearVelocity.y)
+                } else {
+                    if (this.up == false && this.down == false) {
+                        if (this.finallyDir.y == 1) {
+                            this.setAni(Anistate.idleUp, true)
+                        } else if (this.finallyDir.y == -1) {
+                            this.setAni(Anistate.idleDown, true)
+                        }
                     }
+
+                    this.rBody.linearVelocity = v2(0, this.rBody.linearVelocity.y)
                 }
-                this.rBody.linearVelocity=v2(this.rBody.linearVelocity.x,0)
+                if (this.up == true && this.down == false) {
+                    this.rBody.linearVelocity = v2(this.rBody.linearVelocity.x, 1 * this.moveSpeed)
+                } else if (this.up == false && this.down == true) {
+                    this.rBody.linearVelocity = v2(this.rBody.linearVelocity.x, -1 * this.moveSpeed)
+                } else {
+                    if (this.left == false && this.right == false) {
+                        if (this.finallyDir.x == 1 || this.finallyDir.x == -1) {
+                            this.setAni(Anistate.idle, true)
+                        }
+                    }
+                    this.rBody.linearVelocity = v2(this.rBody.linearVelocity.x, 0)
+                }
+            } else {
+
             }
-        }else{
-           
         }
-    }
-        
+
     }
     setAni(anima: string, 动画重复检测: boolean, node?: Animation) {
         if (动画重复检测 == true) {

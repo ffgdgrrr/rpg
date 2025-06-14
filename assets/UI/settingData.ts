@@ -1,6 +1,7 @@
-import { _decorator, Component, Director, director, Enum, EventKeyboard, find, input, Input, instantiate, Node, Prefab, Sprite } from 'cc';
+import { _decorator, Component, Director, director, Enum, EventKeyboard, find, input, Input, instantiate, Node, Prefab, Sprite, sys } from 'cc';
 import { Vec3 } from 'cc';
 import { stateUI } from '../tools/状态栏/stateUI';
+import { bag } from '../tools/inventory/script/bag';
 const { ccclass, property } = _decorator;
 export enum StateType{
     心情,
@@ -31,24 +32,15 @@ export class settingData extends Component {
     NodeData:Map<string, [Vec3, boolean]> = new Map();
 
     saveScene() {
-        this.CodeSave()
+        
         this.instantiateLoading()
-    }
-    CodeSave(){
-        const CodeSave:boolean=JSON.parse(window.localStorage.getItem('CodeSave'))
-        if(CodeSave==true){
-            let root = find('Canvas');
-            this.traverseNode(root);
-            window.localStorage.setItem(director.getScene().name, JSON.stringify(Array.from(this.NodeData.entries())));
-            console.log('saveScene',director.getScene().name)
-        }
     }
     loadScene(sceneName: string) {
         console.log(sceneName);
         if (director.getScene().name === sceneName) {
-            if (window.localStorage.getItem(sceneName)) {
+            if (sys.localStorage.getItem(sceneName)) {
                 console.log('loadScene', sceneName);
-                let sceneData: Map<string, [Vec3, boolean]> = new Map(JSON.parse(window.localStorage.getItem(sceneName)));
+                let sceneData: Map<string, [Vec3, boolean]> = new Map(JSON.parse(sys.localStorage.getItem(sceneName)));
                 sceneData.forEach((value, key: string) => {
                     let node = find(key);
                     if (node) {
@@ -104,31 +96,31 @@ export class settingData extends Component {
     }
     start() {
         
-        if(window.localStorage.getItem('金钱')){
-            this.金钱=JSON.parse(window.localStorage.getItem('金钱'))
+        if(sys.localStorage.getItem('金钱')){
+            this.金钱=JSON.parse(sys.localStorage.getItem('金钱'))
         }else{
-            window.localStorage.setItem('金钱',JSON.stringify(this.金钱))
+            sys.localStorage.setItem('金钱',JSON.stringify(this.金钱))
         }
-        if(window.localStorage.getItem('心情')){
-            this.心情=JSON.parse(window.localStorage.getItem('心情'))
-            console.log(window.localStorage.getItem('心情'))
+        if(sys.localStorage.getItem('心情')){
+            this.心情=JSON.parse(sys.localStorage.getItem('心情'))
+            console.log(sys.localStorage.getItem('心情'))
         }else{
-            window.localStorage.setItem('心情',JSON.stringify(this.心情))
+            sys.localStorage.setItem('心情',JSON.stringify(this.心情))
         }
-        if(window.localStorage.getItem('理智')){
-            this.理智=JSON.parse(window.localStorage.getItem('理智'))
+        if(sys.localStorage.getItem('理智')){
+            this.理智=JSON.parse(sys.localStorage.getItem('理智'))
         }else{
-            window.localStorage.setItem('理智',JSON.stringify(this.理智))
+            sys.localStorage.setItem('理智',JSON.stringify(this.理智))
         }
-        if(window.localStorage.getItem('睡眠')){
-            this.睡眠=JSON.parse(window.localStorage.getItem('睡眠'))
+        if(sys.localStorage.getItem('睡眠')){
+            this.睡眠=JSON.parse(sys.localStorage.getItem('睡眠'))
         }else{
-            window.localStorage.setItem('睡眠',JSON.stringify(this.睡眠))
+            sys.localStorage.setItem('睡眠',JSON.stringify(this.睡眠))
         }
-        if(window.localStorage.getItem('饱食')){
-            this.饱食=JSON.parse(window.localStorage.getItem('饱食'))
+        if(sys.localStorage.getItem('饱食')){
+            this.饱食=JSON.parse(sys.localStorage.getItem('饱食'))
         }else{
-            window.localStorage.setItem('饱食',JSON.stringify(this.饱食))
+            sys.localStorage.setItem('饱食',JSON.stringify(this.饱食))
         }
         
         this.schedule(()=>{
@@ -159,6 +151,7 @@ export class settingData extends Component {
         let sceneContorl=instantiate(this.SceneContorl)
         sceneContorl.setParent(find('Canvas'))
         sceneContorl.setPosition(0,-450)
+
         
         //bagNode.getComponent(bag).add('foodCard')
     }
@@ -229,44 +222,41 @@ export class settingData extends Component {
         状态UI.饱食.progress=this.饱食/100
         状态UI.人民币.string='人民币：'+this.金钱+'元'
         }
-        window.localStorage.setItem('心情',JSON.stringify(this.心情))
-        window.localStorage.setItem('理智',JSON.stringify(this.理智))
-        window.localStorage.setItem('睡眠',JSON.stringify(this.睡眠))
-        window.localStorage.setItem('饱食',JSON.stringify(this.饱食))
-        window.localStorage.setItem('金钱',JSON.stringify(this.金钱))
+        sys.localStorage.setItem('心情',JSON.stringify(this.心情))
+        sys.localStorage.setItem('理智',JSON.stringify(this.理智))
+        sys.localStorage.setItem('睡眠',JSON.stringify(this.睡眠))
+        sys.localStorage.setItem('饱食',JSON.stringify(this.饱食))
+        sys.localStorage.setItem('金钱',JSON.stringify(this.金钱))
         console.log(this.饱食)
        
 
     }
     currentScene(){
-        // this.心情=JSON.parse(window.localStorage.getItem('心情'))
-        // this.理智=JSON.parse(window.localStorage.getItem('理智'))
-        // this.睡眠=JSON.parse(window.localStorage.getItem('睡眠'))
-        // this.饱食=JSON.parse(window.localStorage.getItem('饱食'))
+        // this.心情=JSON.parse(sys.localStorage.getItem('心情'))
+        // this.理智=JSON.parse(sys.localStorage.getItem('理智'))
+        // this.睡眠=JSON.parse(sys.localStorage.getItem('睡眠'))
+        // this.饱食=JSON.parse(sys.localStorage.getItem('饱食'))
         this.scheduleOnce(()=>{
             this.changeStateValue(StateType.心情,0)
         },1)
-        const CodeSave:boolean=JSON.parse(window.localStorage.getItem('CodeSave'))
-        if(CodeSave==true){
-            this.loadScene(director.getScene().name)
-        }
-        const openState:boolean=JSON.parse(window.localStorage.getItem('openState'))
+        if (sys.localStorage.getItem('openState')) {
+        const openState:boolean=JSON.parse(sys.localStorage.getItem('openState'))
         if(openState==true){
             this.instantiateStateUI()
         }
-        
+    }
         this.instantiateBag()
         const currentScene = director.getScene();
         const currentSceneName = currentScene?.name;
         if(currentSceneName!='End'&&currentSceneName!='setting'&&currentSceneName!='startMenu'){
-            window.localStorage.setItem('currentScene',currentSceneName)
-            const autoSave:boolean=JSON.parse(window.localStorage.getItem('autoSave'))
+            sys.localStorage.setItem('currentScene',currentSceneName)
+            const autoSave:boolean=JSON.parse(sys.localStorage.getItem('autoSave'))
             if(autoSave==true){
-                window.localStorage.setItem('SaveScene',currentSceneName)
+                sys.localStorage.setItem('SaveScene',currentSceneName)
             }
         } 
         console.log(currentSceneName)
-            console.log(this.node.name+window.localStorage.getItem('currentScene'))
+            console.log(this.node.name+sys.localStorage.getItem('currentScene'))
     }
     onDestroy () {
         director.off(Director.EVENT_BEFORE_SCENE_LOADING,this.saveScene,this)
@@ -275,11 +265,11 @@ export class settingData extends Component {
     }
     onKeyDown (event: EventKeyboard) {
         switch(event.keyCode) {
-            case parseInt(window.localStorage.getItem('esc')):
+            case parseInt(sys.localStorage.getItem('esc')):
                 director.loadScene('setting')
                 break
-            case parseInt(window.localStorage.getItem('save')):
-                this.CodeSave()
+            case parseInt(sys.localStorage.getItem('save')):
+               
                 let sr=find('Canvas/readAndSaveNode')
                 if(sr.active==true){
                     sr.active=false
@@ -288,9 +278,9 @@ export class settingData extends Component {
                     let camera=find('Canvas/Camera')
                     sr.setPosition(camera.position.x,camera.position.y)
                 }
-                //window.localStorage.setItem('SaveScene',director.getScene().name)
+                //sys.localStorage.setItem('SaveScene',director.getScene().name)
                 break
-            case parseInt(window.localStorage.getItem('inventory')):
+            case parseInt(sys.localStorage.getItem('inventory')):
                 if(find('Canvas/Camera/bag').active==false){
                     find('Canvas/Camera/bag').active=true
                 }else if(find('Canvas/Camera/bag').active==true){

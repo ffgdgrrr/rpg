@@ -4,13 +4,13 @@ const { ccclass, property } = _decorator;
 @ccclass('PlayerLocalData')
 export class PlayerLocalData extends Component {
     private static  readonly _instance:PlayerLocalData=new PlayerLocalData()
-    GZYPath:string;
+    PlayerPath:string;
     start() {
         
     }
     getPath(){
-        this.GZYPath=window.localStorage.getItem('GZYPath')
-        console.log(this.GZYPath,'gg')
+        this.PlayerPath=sys.localStorage.getItem('PlayerPath')
+        console.log(this.PlayerPath,'gg')
     }
     update(deltaTime: number) {
         
@@ -19,6 +19,6 @@ export class PlayerLocalData extends Component {
         return this._instance
     }
 }
-export var GZYLocal=PlayerLocalData.instance
+export var PlayerLocal=PlayerLocalData.instance
 
 

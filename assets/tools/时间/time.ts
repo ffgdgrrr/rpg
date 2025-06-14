@@ -41,7 +41,7 @@ export class time extends Component {
         this.timeLabelNode.setPosition(-600,0,0)
     }
     protected onLoad(): void {
-        let timeData:number[]= JSON.parse(window.localStorage.getItem("time"))
+        let timeData:number[]= JSON.parse(sys.localStorage.getItem("time"))
         if(timeData){
             this.days=timeData[0]
             this.timeElapsed=timeData[1]
@@ -50,7 +50,7 @@ export class time extends Component {
         director.on(Director.EVENT_AFTER_SCENE_LAUNCH,this.currentScene,this)
     }
     protected onDestroy(): void {
-        window.localStorage.setItem("time",JSON.stringify([this.days,this.timeElapsed]))
+        sys.localStorage.setItem("time",JSON.stringify([this.days,this.timeElapsed]))
         director.off(Director.EVENT_AFTER_SCENE_LAUNCH,this.currentScene,this)
     }
     padZero(num: number): string {
